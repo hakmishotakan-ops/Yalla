@@ -5,202 +5,161 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aylla 💖</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
 <style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background: radial-gradient(circle at center, #1a001f, #000);
-    color: white;
-    overflow: hidden;
-    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    height:100vh;
+    overflow:hidden;
+    background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;
 }
 
-/* fundo com partículas */
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 0;
+/* overlay escuro */
+.overlay {
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(5px);
 }
 
-/* tela inicial */
-#start {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    z-index: 10;
-    letter-spacing: 2px;
+/* telas */
+.screen {
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    color:white;
+    text-align:center;
+    padding:20px;
+    transition:0.6s;
 }
 
-/* conteúdo */
-.container {
-    position: relative;
-    z-index: 2;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 20px;
-    display: none;
+/* esconder */
+.hidden { opacity:0; pointer-events:none; }
+
+/* botão */
+.btn {
+    margin-top:20px;
+    padding:14px 28px;
+    border-radius:40px;
+    border:none;
+    font-size:1rem;
+    cursor:pointer;
+    background:linear-gradient(45deg,#ff4e88,#ff7eb3);
+    color:white;
+    box-shadow:0 5px 20px rgba(255,0,100,0.4);
+}
+
+/* botão fugir */
+#nao {
+    position:absolute;
+    background:transparent;
+    border:2px solid white;
 }
 
 /* texto */
-#texto {
-    font-size: 1.3rem;
-    line-height: 1.6;
-}
+h1 { font-size:2rem; margin-bottom:10px; }
+p { font-size:1.2rem; opacity:0.9; }
 
-/* botões */
-button {
-    margin: 10px;
-    padding: 15px 25px;
-    font-size: 1.1rem;
-    border-radius: 30px;
-    border: none;
+/* fade */
+.fade {
+    animation:fade 1s ease;
 }
-
-#sim {
-    background: linear-gradient(45deg, #ff4e88, #ff7eb3);
-    color: white;
-}
-
-#nao {
-    background: transparent;
-    border: 2px solid white;
-    color: white;
-    position: absolute;
+@keyframes fade {
+    from {opacity:0; transform:translateY(20px);}
+    to {opacity:1; transform:translateY(0);}
 }
 
 /* corações */
 .heart {
-    position: absolute;
-    bottom: -20px;
-    font-size: 20px;
-    animation: subir 6s linear infinite;
+    position:absolute;
+    bottom:-10px;
+    font-size:20px;
+    animation:rise 6s linear infinite;
 }
-
-@keyframes subir {
-    0% { transform: translateY(0); opacity: 1; }
-    100% { transform: translateY(-110vh); opacity: 0; }
+@keyframes rise {
+    to { transform:translateY(-110vh); opacity:0; }
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="bg"></canvas>
+<div class="overlay"></div>
 
-<div id="start" onclick="iniciar()">
-    ▶️ TOCAR
+<!-- TELA 1 -->
+<div class="screen" id="t1">
+    <h1>Aylla...</h1>
+    <p>clica aqui ❤️</p>
+    <button class="btn" onclick="next(1)">Começar</button>
 </div>
 
-<div class="container" id="conteudo">
+<!-- TELA 2 -->
+<div class="screen hidden" id="t2">
+    <p class="fade">Tem coisas que a gente não explica...</p>
+    <button class="btn" onclick="next(2)">Continuar</button>
+</div>
 
-    <div id="texto"></div>
+<!-- TELA 3 -->
+<div class="screen hidden" id="t3">
+    <p class="fade">só sente.</p>
+    <button class="btn" onclick="next(3)">Continuar</button>
+</div>
 
-    <div id="botoes" style="display:none;">
-        <h2>Minha gata... 💖</h2>
-        <p>Você aceita namorar comigo?</p>
+<!-- TELA 4 -->
+<div class="screen hidden" id="t4">
+    <p class="fade">E de alguma forma...</p>
+    <button class="btn" onclick="next(4)">Continuar</button>
+</div>
 
-        <button id="sim" onclick="aceitar()">Sim ❤️</button>
-        <button id="nao" ontouchstart="fugir()" onmouseover="fugir()">Não 😅</button>
+<!-- TELA 5 -->
+<div class="screen hidden" id="t5">
+    <p class="fade">você virou algo muito especial pra mim.</p>
+    <button class="btn" onclick="next(5)">Continuar</button>
+</div>
 
-        <a href="https://www.youtube.com/results?search_query=Is+This+Love" target="_blank" style="display:block;margin-top:20px;color:white;">
-            🎵 Is This Love
-        </a>
-    </div>
+<!-- FINAL -->
+<div class="screen hidden" id="final">
+    <h1>Minha gata 💖</h1>
+    <p>Você aceita namorar comigo?</p>
 
+    <button class="btn" onclick="aceitar()">Sim ❤️</button>
+    <button id="nao" class="btn" ontouchstart="fugir()" onmouseover="fugir()">Não 😅</button>
+
+    <a href="https://www.youtube.com/results?search_query=Is+This+Love" target="_blank" style="margin-top:20px;color:white;">
+        🎵 Is This Love
+    </a>
 </div>
 
 <script>
-// partículas no fundo
-const canvas = document.getElementById("bg");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-for (let i = 0; i < 80; i++) {
-    particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2
-    });
+function next(n){
+    document.getElementById("t"+n).classList.add("hidden");
+    document.getElementById("t"+(n+1)).classList.remove("hidden");
 }
 
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "white";
+function aceitar(){
+    document.body.innerHTML = "<h1 style='margin-top:40vh;text-align:center;color:white;'>Agora é oficial ❤️<br>Eu te quero pra sempre.</h1>";
 
-    particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-
-        p.y -= 0.2;
-        if (p.y < 0) p.y = canvas.height;
-    });
-
-    requestAnimationFrame(draw);
-}
-draw();
-
-// texto digitando
-const frases = [
-"Aylla...",
-"Tem coisa que a gente não explica...",
-"só sente.",
-"E de alguma forma...",
-"você virou algo especial pra mim.",
-"",
-"Então eu só preciso te perguntar..."
-];
-
-let i = 0, j = 0;
-
-function iniciar() {
-    document.getElementById("start").style.display = "none";
-    document.getElementById("conteudo").style.display = "block";
-    digitar();
+    setInterval(()=>{
+        let h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="💖";
+        h.style.left=Math.random()*100+"vw";
+        document.body.appendChild(h);
+    },200);
 }
 
-function digitar() {
-    if (i < frases.length) {
-        if (j < frases[i].length) {
-            document.getElementById("texto").innerHTML += frases[i][j];
-            j++;
-            setTimeout(digitar, 40);
-        } else {
-            document.getElementById("texto").innerHTML += "<br><br>";
-            i++; j = 0;
-            setTimeout(digitar, 600);
-        }
-    } else {
-        document.getElementById("botoes").style.display = "block";
-    }
-}
-
-function aceitar() {
-    document.body.innerHTML = "<h1 style='margin-top:40vh;'>Agora é oficial ❤️<br>Eu te quero pra sempre.</h1>";
-
-    setInterval(() => {
-        let heart = document.createElement("div");
-        heart.innerHTML = "💖";
-        heart.className = "heart";
-        heart.style.left = Math.random() * 100 + "vw";
-        document.body.appendChild(heart);
-    }, 200);
-}
-
-function fugir() {
-    const b = document.getElementById("nao");
-    b.style.left = Math.random() * (window.innerWidth - 100) + "px";
-    b.style.top = Math.random() * (window.innerHeight - 50) + "px";
+function fugir(){
+    let b=document.getElementById("nao");
+    b.style.left=Math.random()*(window.innerWidth-100)+"px";
+    b.style.top=Math.random()*(window.innerHeight-50)+"px";
 }
 </script>
 
