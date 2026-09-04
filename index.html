@@ -9,10 +9,18 @@
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background: black;
+    background: radial-gradient(circle at center, #1a001f, #000);
     color: white;
     overflow: hidden;
     text-align: center;
+}
+
+/* fundo com partículas */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
 }
 
 /* tela inicial */
@@ -26,21 +34,23 @@ body {
     align-items: center;
     font-size: 1.5rem;
     z-index: 10;
+    letter-spacing: 2px;
 }
 
 /* conteúdo */
 .container {
-    display: none;
-    padding: 20px;
     position: relative;
+    z-index: 2;
     top: 50%;
     transform: translateY(-50%);
+    padding: 20px;
+    display: none;
 }
 
-/* texto digitando */
+/* texto */
 #texto {
     font-size: 1.3rem;
-    min-height: 100px;
+    line-height: 1.6;
 }
 
 /* botões */
@@ -53,8 +63,8 @@ button {
 }
 
 #sim {
-    background: white;
-    color: #ff4e88;
+    background: linear-gradient(45deg, #ff4e88, #ff7eb3);
+    color: white;
 }
 
 #nao {
@@ -81,8 +91,10 @@ button {
 
 <body>
 
+<canvas id="bg"></canvas>
+
 <div id="start" onclick="iniciar()">
-    ▶️ Tocar
+    ▶️ TOCAR
 </div>
 
 <div class="container" id="conteudo">
@@ -104,20 +116,52 @@ button {
 </div>
 
 <script>
+// partículas no fundo
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2
+    });
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+
+    particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        p.y -= 0.2;
+        if (p.y < 0) p.y = canvas.height;
+    });
+
+    requestAnimationFrame(draw);
+}
+draw();
+
+// texto digitando
 const frases = [
 "Aylla...",
-"Eu não sei exatamente quando tudo mudou...",
-"mas de alguma forma...",
-"você virou algo muito importante pra mim.",
-"Você trouxe leveza...",
-"sorrisos que eu nem sabia que precisava...",
-"e momentos que eu queria repetir pra sempre.",
+"Tem coisa que a gente não explica...",
+"só sente.",
+"E de alguma forma...",
+"você virou algo especial pra mim.",
 "",
-"E agora eu só tenho uma pergunta..."
+"Então eu só preciso te perguntar..."
 ];
 
-let i = 0;
-let j = 0;
+let i = 0, j = 0;
 
 function iniciar() {
     document.getElementById("start").style.display = "none";
@@ -128,13 +172,12 @@ function iniciar() {
 function digitar() {
     if (i < frases.length) {
         if (j < frases[i].length) {
-            document.getElementById("texto").innerHTML += frases[i].charAt(j);
+            document.getElementById("texto").innerHTML += frases[i][j];
             j++;
             setTimeout(digitar, 40);
         } else {
             document.getElementById("texto").innerHTML += "<br><br>";
-            i++;
-            j = 0;
+            i++; j = 0;
             setTimeout(digitar, 600);
         }
     } else {
@@ -143,24 +186,21 @@ function digitar() {
 }
 
 function aceitar() {
-    document.body.innerHTML = "<h1 style='margin-top:40vh;'>Agora é oficial ❤️<br>Eu te quero pra sempre, minha gata.</h1>";
+    document.body.innerHTML = "<h1 style='margin-top:40vh;'>Agora é oficial ❤️<br>Eu te quero pra sempre.</h1>";
 
     setInterval(() => {
         let heart = document.createElement("div");
         heart.innerHTML = "💖";
         heart.className = "heart";
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (Math.random()*25+15)+"px";
         document.body.appendChild(heart);
     }, 200);
 }
 
 function fugir() {
-    const botao = document.getElementById("nao");
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
-    botao.style.left = x + "px";
-    botao.style.top = y + "px";
+    const b = document.getElementById("nao");
+    b.style.left = Math.random() * (window.innerWidth - 100) + "px";
+    b.style.top = Math.random() * (window.innerHeight - 50) + "px";
 }
 </script>
 
