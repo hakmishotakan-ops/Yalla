@@ -3,164 +3,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aylla 💖</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+<title>Pra você, Aylla 💖</title>
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
 body {
-    font-family: 'Poppins', sans-serif;
-    height:100vh;
-    overflow:hidden;
-    background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') center/cover no-repeat;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    overflow: hidden;
+    color: white;
+    text-align: center;
 }
 
-/* overlay escuro */
-.overlay {
-    position:absolute;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.6);
-    backdrop-filter:blur(5px);
+.container {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 20px;
+    animation: fadeIn 2s ease;
 }
 
-/* telas */
-.screen {
-    position:absolute;
-    width:100%;
-    height:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    color:white;
-    text-align:center;
-    padding:20px;
-    transition:0.6s;
+h1 {
+    font-size: 2rem;
 }
 
-/* esconder */
-.hidden { opacity:0; pointer-events:none; }
-
-/* botão */
-.btn {
-    margin-top:20px;
-    padding:14px 28px;
-    border-radius:40px;
-    border:none;
-    font-size:1rem;
-    cursor:pointer;
-    background:linear-gradient(45deg,#ff4e88,#ff7eb3);
-    color:white;
-    box-shadow:0 5px 20px rgba(255,0,100,0.4);
+p {
+    font-size: 1.2rem;
+    margin-top: 10px;
 }
 
-/* botão fugir */
+button {
+    margin-top: 20px;
+    padding: 15px 25px;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#sim {
+    background: white;
+    color: #ff4e88;
+}
+
 #nao {
-    position:absolute;
-    background:transparent;
-    border:2px solid white;
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    position: absolute;
 }
 
-/* texto */
-h1 { font-size:2rem; margin-bottom:10px; }
-p { font-size:1.2rem; opacity:0.9; }
-
-/* fade */
-.fade {
-    animation:fade 1s ease;
-}
-@keyframes fade {
-    from {opacity:0; transform:translateY(20px);}
-    to {opacity:1; transform:translateY(0);}
+#resposta {
+    margin-top: 20px;
+    font-size: 1.4rem;
 }
 
-/* corações */
+.music {
+    margin-top: 20px;
+    display: block;
+    color: white;
+    text-decoration: underline;
+}
+
 .heart {
-    position:absolute;
-    bottom:-10px;
-    font-size:20px;
-    animation:rise 6s linear infinite;
+    position: absolute;
+    bottom: -10px;
+    color: white;
+    font-size: 20px;
+    animation: subir 5s linear infinite;
 }
-@keyframes rise {
-    to { transform:translateY(-110vh); opacity:0; }
+
+@keyframes subir {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100vh); opacity: 0; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px);}
+    to { opacity: 1; transform: translateY(-50%);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="overlay"></div>
-
-<!-- TELA 1 -->
-<div class="screen" id="t1">
+<div class="container">
     <h1>Aylla...</h1>
-    <p>clica aqui ❤️</p>
-    <button class="btn" onclick="next(1)">Começar</button>
-</div>
+    <p>Desde que você entrou na minha vida,</p>
+    <p>tudo ficou mais leve, mais bonito...</p>
+    <p>e mais verdadeiro.</p>
 
-<!-- TELA 2 -->
-<div class="screen hidden" id="t2">
-    <p class="fade">Tem coisas que a gente não explica...</p>
-    <button class="btn" onclick="next(2)">Continuar</button>
-</div>
-
-<!-- TELA 3 -->
-<div class="screen hidden" id="t3">
-    <p class="fade">só sente.</p>
-    <button class="btn" onclick="next(3)">Continuar</button>
-</div>
-
-<!-- TELA 4 -->
-<div class="screen hidden" id="t4">
-    <p class="fade">E de alguma forma...</p>
-    <button class="btn" onclick="next(4)">Continuar</button>
-</div>
-
-<!-- TELA 5 -->
-<div class="screen hidden" id="t5">
-    <p class="fade">você virou algo muito especial pra mim.</p>
-    <button class="btn" onclick="next(5)">Continuar</button>
-</div>
-
-<!-- FINAL -->
-<div class="screen hidden" id="final">
-    <h1>Minha gata 💖</h1>
+    <h2>Minha gata... 💖</h2>
     <p>Você aceita namorar comigo?</p>
 
-    <button class="btn" onclick="aceitar()">Sim ❤️</button>
-    <button id="nao" class="btn" ontouchstart="fugir()" onmouseover="fugir()">Não 😅</button>
+    <button id="sim" onclick="aceitar()">Sim ❤️</button>
+    <button id="nao" onmouseover="fugir()">Não 😅</button>
 
-    <a href="https://www.youtube.com/results?search_query=Is+This+Love" target="_blank" style="margin-top:20px;color:white;">
-        🎵 Is This Love
+    <div id="resposta"></div>
+
+    <a class="music" href="https://www.youtube.com/results?search_query=Is+This+Love" target="_blank">
+        🎵 Nossa música (clica aqui)
     </a>
 </div>
 
 <script>
-function next(n){
-    document.getElementById("t"+n).classList.add("hidden");
-    document.getElementById("t"+(n+1)).classList.remove("hidden");
+function aceitar() {
+    document.getElementById("resposta").innerHTML = "Agora é oficial ❤️ Eu te quero pra sempre, minha gata.";
 }
 
-function aceitar(){
-    document.body.innerHTML = "<h1 style='margin-top:40vh;text-align:center;color:white;'>Agora é oficial ❤️<br>Eu te quero pra sempre.</h1>";
-
-    setInterval(()=>{
-        let h=document.createElement("div");
-        h.className="heart";
-        h.innerHTML="💖";
-        h.style.left=Math.random()*100+"vw";
-        document.body.appendChild(h);
-    },200);
+function fugir() {
+    const botao = document.getElementById("nao");
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    botao.style.left = x + "px";
+    botao.style.top = y + "px";
 }
 
-function fugir(){
-    let b=document.getElementById("nao");
-    b.style.left=Math.random()*(window.innerWidth-100)+"px";
-    b.style.top=Math.random()*(window.innerHeight-50)+"px";
-}
+// corações subindo
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 5000);
+}, 300);
 </script>
 
 </body>
